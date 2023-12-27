@@ -2,8 +2,8 @@ import React from 'react';
 
 import { sample } from '../../utils';
 import { WORDS } from '../../data';
-import GuessInput from '../guessInput/GuessInput.js';
-import GuessResults from '../guessResults/GuessResults.js';
+import GuessInput from '../GuessInput/GuessInput.js';
+import GuessResults from '../GuessResults/GuessResults.js';
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);

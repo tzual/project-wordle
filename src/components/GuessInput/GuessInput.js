@@ -1,6 +1,6 @@
 import React from "react";
 
-function GuessInput() {
+function GuessInput({ guessHistory, setGuessHistory }) {
   const [nextGuess, setNextGuess] = React.useState("");
 
   function handleNextGuessChange(event) {
@@ -10,7 +10,15 @@ function GuessInput() {
 
   function handleGuessInputSubmit(event) {
     event.preventDefault();
-    console.log("Guess submitted:", nextGuess);
+    const nextGuessHistory = [
+      ...guessHistory,
+      {
+        value: nextGuess,
+        id: crypto.randomUUID(),
+      },
+    ];
+    console.log("Guess history:", nextGuessHistory);
+    setGuessHistory(nextGuessHistory);
     setNextGuess("");
   }
 

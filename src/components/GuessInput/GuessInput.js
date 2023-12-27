@@ -10,14 +10,7 @@ function GuessInput({ guessHistory, setGuessHistory }) {
 
   function handleGuessInputSubmit(event) {
     event.preventDefault();
-    const nextGuessHistory = [
-      ...guessHistory,
-      {
-        value: nextGuess,
-        id: crypto.randomUUID(),
-      },
-    ];
-    console.log("Guess history:", nextGuessHistory);
+    const nextGuessHistory = [...guessHistory, nextGuess];
     setGuessHistory(nextGuessHistory);
     setNextGuess("");
   }

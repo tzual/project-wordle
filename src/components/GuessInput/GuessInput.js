@@ -1,6 +1,7 @@
 import React from "react";
+import { NUM_OF_GUESSES_ALLOWED } from "../../constants.js";
 
-function GuessInput({ guessHistory, setGuessHistory }) {
+function GuessInput({ guessHistory, setGuessHistory, answer, setGameStatus }) {
   const [nextGuess, setNextGuess] = React.useState("");
 
   function handleNextGuessChange(event) {
@@ -13,6 +14,11 @@ function GuessInput({ guessHistory, setGuessHistory }) {
     const nextGuessHistory = [...guessHistory, nextGuess];
     setGuessHistory(nextGuessHistory);
     setNextGuess("");
+    if (nextGuess === answer) {
+      setGameStatus("won");
+    } else if (nextGuessHistory.length >= NUM_OF_GUESSES_ALLOWED) {
+      setGameStatus("lost");
+    }
   }
 
   return (

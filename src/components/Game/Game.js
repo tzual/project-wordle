@@ -5,6 +5,8 @@ import { WORDS } from '../../data';
 import GuessInput from '../GuessInput/GuessInput.js';
 import GuessResults from '../GuessResults/GuessResults.js';
 import { checkGuess } from "../../game-helpers.js";
+import GameWonBanner from '../GameWonBanner/GameWonBanner.js';
+import GameLostBanner from '../GameLostBanner/GameLostBanner.js';
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
@@ -13,6 +15,7 @@ console.info({ answer });
 
 function Game() {
   const [guessHistory, setGuessHistory] = React.useState([]);
+  const [gameStatus, setGameStatus] = React.useState('playing');
   const guessHistoryStatus = guessHistory.map((guess) =>
     checkGuess(guess, answer)
   );
@@ -20,10 +23,18 @@ function Game() {
   return (
     <>
       <GuessResults guessHistoryStatus={guessHistoryStatus} />
-      <GuessInput
-        guessHistory={guessHistory}
-        setGuessHistory={setGuessHistory}
-      />
+      {{
+        playing: (
+          <GuessInput
+            guessHistory={guessHistory}
+            setGuessHistory={setGuessHistory}
+            answer={answer}
+            setGameStatus={setGameStatus}
+          />
+        ),
+        won: <GameWonBanner guessesAmount={guessHistory.length} />,
+        lost: <GameLostBanner answer={answer} />
+      }[gameStatus]}
     </>
   );
 }

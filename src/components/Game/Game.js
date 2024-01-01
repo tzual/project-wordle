@@ -7,6 +7,7 @@ import GuessResults from '../GuessResults/GuessResults.js';
 import { checkGuess } from "../../game-helpers.js";
 import GameWonBanner from '../GameWonBanner/GameWonBanner.js';
 import GameLostBanner from '../GameLostBanner/GameLostBanner.js';
+import { NUM_OF_GUESSES_ALLOWED } from '../../constants.js';
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
@@ -20,18 +21,21 @@ function Game() {
     checkGuess(guess, answer)
   );
 
+  function handleGuessSubmit(nextGuess) {
+    const nextGuessHistory = [...guessHistory, nextGuess];
+    setGuessHistory(nextGuessHistory);
+    if (nextGuess === answer) {
+      setGameStatus("won");
+    } else if (nextGuessHistory.length >= NUM_OF_GUESSES_ALLOWED) {
+      setGameStatus("lost");
+    }
+  }
+
   return (
     <>
       <GuessResults guessHistoryStatus={guessHistoryStatus} />
       {{
-        playing: (
-          <GuessInput
-            guessHistory={guessHistory}
-            setGuessHistory={setGuessHistory}
-            answer={answer}
-            setGameStatus={setGameStatus}
-          />
-        ),
+        playing: <GuessInput handleGuessSubmit={handleGuessSubmit} />,
         won: <GameWonBanner guessesAmount={guessHistory.length} />,
         lost: <GameLostBanner answer={answer} />
       }[gameStatus]}

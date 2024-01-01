@@ -1,7 +1,6 @@
 import React from "react";
-import { NUM_OF_GUESSES_ALLOWED } from "../../constants.js";
 
-function GuessInput({ guessHistory, setGuessHistory, answer, setGameStatus }) {
+function GuessInput({ handleGuessSubmit }) {
   const [nextGuess, setNextGuess] = React.useState("");
 
   function handleNextGuessChange(event) {
@@ -9,20 +8,12 @@ function GuessInput({ guessHistory, setGuessHistory, answer, setGameStatus }) {
     setNextGuess(nextGuessCaps);
   }
 
-  function handleGuessInputSubmit(event) {
-    event.preventDefault();
-    const nextGuessHistory = [...guessHistory, nextGuess];
-    setGuessHistory(nextGuessHistory);
-    setNextGuess("");
-    if (nextGuess === answer) {
-      setGameStatus("won");
-    } else if (nextGuessHistory.length >= NUM_OF_GUESSES_ALLOWED) {
-      setGameStatus("lost");
-    }
-  }
-
   return (
-    <form onSubmit={handleGuessInputSubmit}>
+    <form onSubmit={(event) => {
+      event.preventDefault();
+      setNextGuess("");
+      handleGuessSubmit(nextGuess);
+    }} className="guess-input-wrapper">
       <label htmlFor="guess-input">Enter guess:</label>
       <input
         type="text"

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { sample } from '../../utils';
 import { WORDS } from '../../data';
-import GuessInput from '../GuessInput/GuessInput.js';
+import GuessField from '../GuessField/GuessField.js';
 import GuessResults from '../GuessResults/GuessResults.js';
 import { checkGuess } from "../../game-helpers.js";
 import GameWonBanner from '../GameWonBanner/GameWonBanner.js';
@@ -35,7 +35,7 @@ function Game() {
     <>
       <GuessResults guessHistoryStatus={guessHistoryStatus} />
       {{
-        playing: <GuessInput handleGuessSubmit={handleGuessSubmit} />,
+        playing: <GuessField handleGuessSubmit={handleGuessSubmit} />,
         won: <GameWonBanner guessesAmount={guessHistory.length} />,
         lost: <GameLostBanner answer={answer} />
       }[gameStatus]}
